@@ -18,7 +18,7 @@ import android.util.Log;
  * @author xiaoying
  *
  */
-public class LogUtil {
+public class LogUtils {
 
 	private final static boolean isPrint = true;
 	

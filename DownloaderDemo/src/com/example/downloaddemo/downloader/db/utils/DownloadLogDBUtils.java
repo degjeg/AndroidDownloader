@@ -27,7 +27,7 @@ import com.example.downloaddemo.downloader.db.DownloadDBHelper;
  * @author xiaoying
  *
  */
-public class DownloadLogDBUtil {
+public class DownloadLogDBUtils {
 	
 	private static final String TABLE_NAME = "download_log";
 	

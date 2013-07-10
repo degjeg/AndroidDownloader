@@ -27,9 +27,9 @@ import java.util.regex.Pattern;
 
 import android.content.Context;
 
-import com.example.downloaddemo.downloader.db.utils.DownloadLogDBUtil;
-import com.example.downloaddemo.utils.LogUtil;
-import com.example.downloaddemo.utils.StringUtil;
+import com.example.downloaddemo.downloader.db.utils.DownloadLogDBUtils;
+import com.example.downloaddemo.utils.LogUtils;
+import com.example.downloaddemo.utils.StringUtils;
 
 /**
  * 功能：下载器类
@@ -84,7 +84,7 @@ public class Downloader {
 				String filename = getFileName(conn);
 				// 根据文件保存目录和文件名构建保存文件
 				mSavedFile = new File(saveFolder, filename);
-				Map<Integer, Integer> logdata = DownloadLogDBUtil.getLogByUrl(mContext, downloadUrl);
+				Map<Integer, Integer> logdata = DownloadLogDBUtils.getLogByUrl(mContext, downloadUrl);
 
 				// 如果存在下载记录
 				if (logdata.size() > 0) {
@@ -99,11 +99,11 @@ public class Downloader {
 				// 计算每条线程下载的数据长度
 				mBlockSize = getBlockSize(mFileSize, mTheadPool.length);
 			} else {
-				LogUtil.w(TAG, "服务器响应错误!响应码：" + conn.getResponseCode() + "响应消息：" +  conn.getResponseMessage());
+				LogUtils.w(TAG, "服务器响应错误!响应码：" + conn.getResponseCode() + "响应消息：" +  conn.getResponseMessage());
 				throw new RuntimeException("server response error ");
 			}
 		} catch (Exception e) {
-			LogUtil.e(TAG, e.toString());
+			LogUtils.e(TAG, e.toString());
 			throw new RuntimeException("Can't connection this url");
 		}
 	}
@@ -146,8 +146,8 @@ public class Downloader {
 					mIsFinished = true;
 				}
 			}
-			DownloadLogDBUtil.delete(mContext, mUrl); // 如果存在下载记录，删除它们，然后重新添加
-			DownloadLogDBUtil.save(mContext, mUrl, mData); // 把已经下载的实时数据写入数据库
+			DownloadLogDBUtils.delete(mContext, mUrl); // 如果存在下载记录，删除它们，然后重新添加
+			DownloadLogDBUtils.save(mContext, mUrl, mData); // 把已经下载的实时数据写入数据库
 
 			boolean isDownloading = true;// 下载未完成
 			while (isDownloading) {// 循环判断所有线程是否完成下载
@@ -169,10 +169,10 @@ public class Downloader {
 			}
 			if (mDownloadedSize == mFileSize) {
 				tempFile.renameTo(mSavedFile);
-				DownloadLogDBUtil.delete(mContext, mUrl);// 下载完成删除记录
+				DownloadLogDBUtils.delete(mContext, mUrl);// 下载完成删除记录
 			}
 		} catch (Exception e) {
-			LogUtil.e(TAG, e.toString());// 打印错误
+			LogUtils.e(TAG, e.toString());// 打印错误
 			throw new Exception("File downloads error"); // 抛出文件下载异常
 		}
 		return mDownloadedSize;
@@ -243,7 +243,7 @@ public class Downloader {
 	 */
 	protected synchronized void update(int threadId, int pos) {
 		mData.put(threadId, pos); // 把制定线程ID的线程赋予最新的下载长度，以前的值会被覆盖掉
-		DownloadLogDBUtil.update(mContext, mUrl, threadId, pos); // 更新数据库中指定线程的下载长度
+		DownloadLogDBUtils.update(mContext, mUrl, threadId, pos); // 更新数据库中指定线程的下载长度
 	}
 
 	/**
@@ -268,7 +268,7 @@ public class Downloader {
 				+ " .NET CLR 3.0.4506.2152; " + ".NET CLR 3.5.30729)");
 		conn.setRequestProperty("Connection", "Keep-Alive");
 		conn.connect();
-		LogUtil.i(TAG, getResponseHeader(conn));
+		LogUtils.i(TAG, getResponseHeader(conn));
 		return conn;
 	}
 	
@@ -306,7 +306,7 @@ public class Downloader {
 				size += mData.get(key);
 			}
 			// 打印出已经下载的数据总和
-			LogUtil.i(TAG, "已经下载的长度" + size + "个字节");
+			LogUtils.i(TAG, "已经下载的长度" + size + "个字节");
 		}
 		return size;
 	}
@@ -319,7 +319,7 @@ public class Downloader {
 	private String getFileName(HttpURLConnection conn) {
 		String filename = mUrl.substring(mUrl.lastIndexOf("/") + 1);
 
-		if (StringUtil.isEmpty(filename)) {// 如果获取不到文件名称
+		if (StringUtils.isEmpty(filename)) {// 如果获取不到文件名称
 			for (int i = 0;; i++) { // 循环遍历所有头属性
 				String mine = conn.getHeaderField(i); // 从返回的流中获取特定索引的头字段值
 				if (mine == null)

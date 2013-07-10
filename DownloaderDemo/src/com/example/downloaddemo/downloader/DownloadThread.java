@@ -17,7 +17,7 @@ import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.example.downloaddemo.utils.LogUtil;
+import com.example.downloaddemo.utils.LogUtils;
 
 /**
  * 功能：下载线程类
@@ -97,7 +97,7 @@ public class DownloadThread extends Thread {
 				// 设置每次读取的数据量
 				int offset = 0;
 				// 打印该线程开始下载的位置
-				LogUtil.i(TAG, mThreadId + " starts to download from position " + startPos);
+				LogUtils.i(TAG, mThreadId + " starts to download from position " + startPos);
 				RandomAccessFile threadFile = new RandomAccessFile(mSavedFile, "rwd");
 				// 文件指针指向开始下载的位置
 				threadFile.seek(startPos);
@@ -115,15 +115,15 @@ public class DownloadThread extends Thread {
 				inStream.close();
 
 				if (mDownloader.isStoped()) {
-					LogUtil.i(TAG, "Download thread " + mThreadId + " has been paused");
+					LogUtils.i(TAG, "Download thread " + mThreadId + " has been paused");
 				} else {
-					LogUtil.i(TAG, "Download thread " + mThreadId + " has been finished");
+					LogUtils.i(TAG, "Download thread " + mThreadId + " has been finished");
 				}
 				this.mIsFinished = true; // 设置完成标志为true，无论是下载完成还是用户主动中断下载
 			} catch (Exception e) {
 				// 设置该线程已经下载的长度为-1
 				this.mDownloadedSize = -1;
-				LogUtil.e(TAG, "Thread " + mThreadId + ":" + e);
+				LogUtils.e(TAG, "Thread " + mThreadId + ":" + e);
 			}
 		}
 	}

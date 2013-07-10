@@ -15,7 +15,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.downloaddemo.utils.LogUtil;
+import com.example.downloaddemo.utils.LogUtils;
 
 /**
  * 功能：下载日志数据库
@@ -65,7 +65,7 @@ public class DownloadDBHelper extends SQLiteOpenHelper {
 	@Override
 	public void onOpen(SQLiteDatabase db) {
 		super.onOpen(db);
-		LogUtil.d("DonwloadDBHelper", "Database has opened ++++++++++++++++>>>>>>>>>>>>");
+		LogUtils.d("DonwloadDBHelper", "Database has opened ++++++++++++++++>>>>>>>>>>>>");
 	}
 
 	/* (non-Javadoc)

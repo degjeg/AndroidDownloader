@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.downloaddemo.downloader.DownloadListener;
 import com.example.downloaddemo.downloader.Downloader;
-import com.example.downloaddemo.utils.LogUtil;
+import com.example.downloaddemo.utils.LogUtils;
 
 public class MainActivity extends Activity {
 	
@@ -136,7 +136,7 @@ public class MainActivity extends Activity {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			if(result != null) {
-				LogUtil.i("SUCCESS", "下载成功");
+				LogUtils.i("SUCCESS", "下载成功");
 				Toast.makeText(MainActivity.this, "下载成功", Toast.LENGTH_SHORT).show();
 				mPb.setProgress(0);
 				mBtn.setText(R.string.start);
