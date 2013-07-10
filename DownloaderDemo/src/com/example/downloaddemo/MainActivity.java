@@ -133,7 +133,6 @@ public class MainActivity extends Activity {
 		
 		@Override
 		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			if(result != null) {
 				LogUtils.i("SUCCESS", "下载成功");
