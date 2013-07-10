@@ -11,6 +11,8 @@
 
 package com.example.downloaddemo.utils;
 
+import java.io.File;
+
 /**
  * 功能：
  * @author xiaoying
@@ -42,6 +44,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static String getFileName(String path) {
-		return path.substring(path.lastIndexOf("/") + 1, path.length());
+//		return path.substring(path.lastIndexOf("/") + 1);
+		return new File(path).getName();
 	}
 }
